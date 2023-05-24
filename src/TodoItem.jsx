@@ -1,6 +1,5 @@
 export const TodoItem = (props) => {
-  const [completed, id, title, toggleTodo, deleteTodo] = [props.completed, props.id, props.title, props.toggleTodo, props.deleteTodo]
-
+  const {completed, id, title, toggleTodo, deleteTodo} = props
   const toggle = (e) => {
     toggleTodo(id, e.target.checked)
   } 
