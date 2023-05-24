@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect, useReducer } from "react"
 import { NewTodoForm } from "./NewTodoForm"
 import { TodoList } from "./TodoList"
+import { todosReducer }  from "./reducer"
 import "./styles.css"
 
-export default function App() {
-  const [todos, setTodos] = useState(() => {
-    const localValue = localStorage.getItem("ITEMS")
-    if (localValue == null) return []
-
+export const App = () => {
+  const [todos, dispatchTodos] = useReducer(todosReducer, [], () => {
+    const localValue = localStorage.getItem("ITEMS") || []
     return JSON.parse(localValue)
   })
 
@@ -15,32 +14,25 @@ export default function App() {
     localStorage.setItem("ITEMS", JSON.stringify(todos))
   }, [todos])
 
-  function addTodo(title) {
-    setTodos((currentTodos) => {
-      return [
-        ...currentTodos,
-        { id: crypto.randomUUID(), title, completed: false},
-      ]
+  const addTodo = (title) => {
+    dispatchTodos({
+      type: 'add',
+      newTitle: title
     })
   }
 
-  function toggleTodo(id, completed) {
-    setTodos(currentTodos => {
-      return currentTodos.map(todo => {
-        if (todo.id === id) {
-          return {
-            ...todo,
-            completed
-          }
-        }
-        return todo
-      })
+  const toggleTodo = (id, completed) => {
+    dispatchTodos({
+      type: 'toggle',
+      todoId: id,
+      todoCompleted: completed
     })
   }
 
-  function deleteTodo(id) {
-    setTodos(currentTodos => {
-      return currentTodos.filter(todo => todo.id !== id)
+  const deleteTodo = (id) => {
+    dispatchTodos({
+      type: 'delete',
+      todoId: id
     })
   }
 
