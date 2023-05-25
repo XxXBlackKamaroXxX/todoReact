@@ -1,19 +1,31 @@
-export const TodoItem = (props) => {
-  const [completed, id, title, toggleTodo, deleteTodo] = [props.completed, props.id, props.title, props.toggleTodo, props.deleteTodo]
+import { useTodosDispatch } from "./todoContext"
+import { TOGGLE_TODO, DELETE_TODO }  from "./reducer"
+
+
+export const TodoItem = (todo) => {
+  const dispatchTodos = useTodosDispatch()
 
   const toggle = (e) => {
-    toggleTodo(id, e.target.checked)
+    dispatchTodos({
+      type: TOGGLE_TODO,
+      todoId: todo.id,
+      todoCompleted: e.target.checked
+    })
   } 
 
   const remove = () => {
-    deleteTodo(id)
+    dispatchTodos({
+      type: DELETE_TODO,
+      todoId: todo.id
+    })
   } 
+
 
   return (
     <li>
       <label>
-        <input type="checkbox" checked={completed} onChange={toggle} />
-        {title}
+        <input type="checkbox" checked={todo.completed} onChange={toggle} />
+        {todo.title}
       </label>
       <button 
         onClick={remove}

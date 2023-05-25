@@ -1,6 +1,9 @@
+import { useContext } from "react"
 import { TodoItem } from "./TodoItem"
+import { useTodos } from "./todoContext"
 
-export const TodoList = ({ todos, toggleTodo, deleteTodo }) => {
+export const TodoList = () => {
+  const todos = useTodos()
   return (
     <ul className="list">
     {todos.length === 0 ? "No Todos" : null}
@@ -8,8 +11,6 @@ export const TodoList = ({ todos, toggleTodo, deleteTodo }) => {
       <TodoItem 
           {...todo} 
           key={todo.id}
-          toggleTodo={toggleTodo}
-          deleteTodo={deleteTodo}
       />
     )}
     </ul>

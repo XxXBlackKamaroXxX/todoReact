@@ -1,13 +1,19 @@
 import { useState } from "react"
+import { useTodosDispatch } from "./todoContext"
+import { ADD_TODO } from "./reducer"
 
-export const NewTodoForm = ({ onSubmit }) => {
+export const NewTodoForm = () => {
     const [newItem, setNewItem] = useState("")
+    const dispatchTodos = useTodosDispatch()
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (newItem === "") return
-        onSubmit(newItem)
         setNewItem("")
+        dispatchTodos({
+            type: ADD_TODO,
+            newTitle: newItem
+        })
     }
 
     const createItem = (e) => {

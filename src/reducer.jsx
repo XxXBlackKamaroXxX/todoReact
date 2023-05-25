@@ -1,6 +1,10 @@
+export const    ADD_TODO = 'addTodo', 
+                TOGGLE_TODO = 'toggleTodo', 
+                DELETE_TODO = 'deleteTodo'
+
 export const todosReducer = (todos, action) => {
     switch(action.type) {
-        case 'add':
+        case ADD_TODO:
             return [
                 ...todos,
                 {   id: crypto.randomUUID(), 
@@ -8,7 +12,7 @@ export const todosReducer = (todos, action) => {
                     completed: false
                 },
             ]
-        case 'toggle':
+        case TOGGLE_TODO:
             return todos.map(todo => {
                 if (todo.id === action.todoId) {
                     return {
@@ -18,9 +22,9 @@ export const todosReducer = (todos, action) => {
                 }
                 return todo
             })
-        case 'delete':
+        case DELETE_TODO:
             return todos.filter(todo => todo.id !== action.todoId)
         default: 
-            return todos
+            throw Error('Unknown action: ' + action.type);
     }
 }
